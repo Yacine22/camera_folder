@@ -1,0 +1,25 @@
+import subprocess, unicodedata
+
+def queryCameras():
+    """ return str -> camera folder """
+    p = subprocess.run(['gphoto2', '--list-files'], stdout=subprocess.PIPE, universal_newlines=True)
+    print(p.stdout)
+    s = p.stdout
+    s = unicodedata.normalize("NFKD", s)
+    s = s.splitlines(0)
+    for i in s:
+        qs = i.split("/")
+      
+        if 'DCIM' in qs:
+            print(len(qs))
+            camera_path = qs
+            break
+  
+    print(camera_path)
+    folder = camera_path[-1].split("»")[0].strip()
+    print(folder)
+    camera_path = "/"+str(camera_path[1])+"/"+str(camera_path[2])+"/"+folder
+      
+      
+    return camera_path
+  
